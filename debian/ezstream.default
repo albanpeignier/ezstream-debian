@@ -1,0 +1,10 @@
+# Name or ID of the user the daemon should run under
+# Daemon is disabled if no user is specified
+DAEMON_USER=""
+
+# To use the same user as icecast2
+#DAEMON_USER=icecast2
+
+CONFIG_FILE=/etc/ezstream/ezstream.xml
+
+

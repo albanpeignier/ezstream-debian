@@ -1,0 +1,61 @@
+#!/bin/sh
+
+PATH=/sbin:/bin
+FLAGS="defaults 23"
+
+NAME=Ezstream
+PID_FILE=/var/run/ezstream.pid
+DAEMON=/usr/bin/ezstream
+
+test -f $DAEMON || exit 0
+
+CONFIG_FILE=/etc/ezstream/ezstream.xml
+DAEMON_USER=""
+
+CONFIGDEFAULTFILE="/etc/default/ezstream"
+[ -f $CONFIGDEFAULTFILE ] && source $CONFIGDEFAULTFILE
+
+if [ -z "$DAEMON_USER" ]; then
+  echo "$NAME daemon disabled - read $CONFIGDEFAULTFILE."
+  exit 0
+fi
+
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "The specified config file doesn't exist : $CONFIG_FILE"
+  echo "See /usr/share/doc/ezstream/examples/ for help"
+  exit 1
+fi  
+
+function start() {
+ start-stop-daemon --start --quiet --pidfile $PID_FILE --make-pidfile --chuid $DAEMON_USER --exec $DAEMON --background -- -c $CONFIG_FILE
+}
+
+function stop() {
+ start-stop-daemon --stop --quiet --pidfile $PID_FILE
+}
+
+case "$1" in
+	start)
+		echo -n "Starting $NAME: ezstream"
+		start
+		echo "."
+  		;;
+	stop)
+		echo -n "Stopping $NAME: ezstream"
+		stop
+		echo "."
+  		;;
+	restart|force-reload)
+		echo -n "Restarting $NAME: ezstream... "
+		stop
+  		sleep 2
+		start
+		echo "done."
+  		;;
+	*)
+  		echo "Usage: $0 {start|stop|restart|force-reload}"
+  		exit 1
+		;;
+esac
+
+exit 0

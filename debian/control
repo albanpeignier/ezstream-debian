@@ -1,0 +1,17 @@
+Source: ezstream
+Section: sound
+Priority: optional
+Maintainer: Alban Peignier <alban.peignier@free.fr>
+Uploaders: Ed Zaleski <oddsock@oddsock.org>, Moritz Grimm <mdgrimm@gmx.net>
+Build-Depends: cdbs, debhelper, libshout-dev, libtagc0-dev, libspeex-dev, libxml2-dev
+Standards-Version: 3.7.2
+
+Package: ezstream
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: A command line source client for Icecast media streaming servers. 
+ It began as the successor of the old "shout" utility, and has since gained a 
+ lot of useful features.
+ .
+ See <http://www.icecast.org/ezstream.php> for more info.
+
